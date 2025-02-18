@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import sqlite3  
+from flask_cors import CORS  # Import the CORS extension
 # Import the ImageRecognizer class from the image_recognition module
 from image_recognition import ImageRecognizer
+import os
 
 # --- Configuration ---
 DB_FILE = 'object_detection.db'
@@ -9,6 +11,7 @@ MODEL_PATH = "./KINOKO/yoloresult/okashi23/weights/best.pt"  # Update with your 
 
 # --- Flask App Initialization ---
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes in your app
 
 # --- YOLO Model Loading (using the ImageRecognizer class) ---
 recognizer = ImageRecognizer(MODEL_PATH)
@@ -43,7 +46,10 @@ def init_db():
     conn.close()
 
 # --- API Routes ---
-
+@app.route('/')
+def index():
+     return "Image Recognition API is running!"
+     
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'image' not in request.form:
