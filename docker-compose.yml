@@ -1,0 +1,40 @@
+# # docker-compose.yml
+# version: '3.8'
+
+# services:
+#   web:  # This is the Nginx service
+#     build:
+#       context: .
+#       dockerfile: Dockerfile  # Use the Nginx Dockerfile
+#     ports:
+#       - "80:80"  # Map port 80 on the host to port 80 in the container
+#     depends_on:
+#       - app  # Ensure the Flask app starts before Nginx
+
+#   app:  # This is your Flask application service
+#     build:
+#       context: .
+#       dockerfile: Dockerfile  # Use the Flask Dockerfile
+#     environment:
+#       - PYTHONUNBUFFERED=1 #for logs
+#     volumes:
+#       - .:/app
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:  # Nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+
+  app:  # Flask
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
