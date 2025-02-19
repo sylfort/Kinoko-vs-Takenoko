@@ -4,4 +4,3 @@ flask-cors
 ultralytics
 Pillow
 gunicorn
-sqlite3
