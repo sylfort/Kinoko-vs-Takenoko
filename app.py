@@ -59,25 +59,28 @@ def predict():
     if image_data.startswith("data:image"):
         image_data = image_data.split(",")[1]
 
+    # como o app sabe o absolute path que a imagem foi salva?
+        #Results saved to /home/ec2-user/my-image-recognition-app/runs/detect/predict3
+
     try:
         detections = recognizer.predict_image(image_data) # Use the ImageRecognizer
 
-        conn = get_db_connection()
-        if conn:
-            try:
-                cursor = conn.cursor()
-                for detection in detections:
-                    class_name = detection['class_name']
-                    update_query = "UPDATE object_counts SET count = count + 1 WHERE object_name = ?"
-                    cursor.execute(update_query, (class_name,))
-                conn.commit()
-            except sqlite3.Error as e:
-                print(f"Error updating database: {e}")
-                conn.rollback()
-            finally:
-                if cursor:  # Check if cursor exists before closing
-                    cursor.close()
-                conn.close()
+        # conn = get_db_connection()
+        # if conn:
+        #     try:
+        #         cursor = conn.cursor()
+        #         for detection in detections:
+        #             class_name = detection['class_name']
+        #             update_query = "UPDATE object_counts SET count = count + 1 WHERE object_name = ?"
+        #             cursor.execute(update_query, (class_name,))
+        #         conn.commit()
+        #     except sqlite3.Error as e:
+        #         print(f"Error updating database: {e}")
+        #         conn.rollback()
+        #     finally:
+        #         if cursor:  # Check if cursor exists before closing
+        #             cursor.close()
+        #         conn.close()
 
         return jsonify(detections)
     except ValueError as e:
