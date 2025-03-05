@@ -106,7 +106,7 @@ def predict():
 if __name__ == '__main__':
     # Bottle's built-in server is fine for *development*.
     # For production, use a production WSGI server like Gunicorn or uWSGI.
-    app.run(host='0.0.0.0', port=5000, debug=True, reloader=True)
+    app.run(host='0.0.0.0', port=5000, debug=False, reloader=False)
 
 # --- Production Deployment (example with Gunicorn) ---
 #   gunicorn --workers 4 --bind 0.0.0.0:8000 app:app
